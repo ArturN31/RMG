@@ -9,9 +9,10 @@ header {
 	background-color: #ffdf6b;
 	display: grid;
 	grid-template-columns: 70ch auto;
-	width: 100%;
-	height: 100%;
 	border: 3px solid black;
+	border-top: 0px;
+	border-left: 0px;
+	border-right: 0px;
 
 	h1 {
 		color: white;
@@ -39,117 +40,139 @@ header {
 	}
 }
 
-main {
-	background-color: #302a2d;
-	display: grid;
-	grid-template-columns: 70ch auto;
-	border: 3px solid black;
-	border-top: 0px;
+#poster-aside {
+	background-color: black;
+	display: flex;
 
-	aside {
-		background-color: black;
-		display: flex;
-		border: 3px solid black;
-
-		#movie-poster {
-			width: 100%;
-			height: 100%;
-			align-self: center;
-		}
-	}
-
-	#movie-aside {
+	#movie-poster {
+		width: 100%;
 		height: 100%;
-
-		#filtering-inputs {
-			padding: 10px 40px 10px 40px;
-			background-color: #688b58;
-			display: grid;
-			grid-template-columns: auto auto auto;
-			gap: 10px;
-
-			#select-list,
-			#select-genre,
-			#input-year {
-				padding: 5px;
-				border: 1px solid black;
-				border-radius: 6px;
-			}
-		}
-
-		#MC-container {
-			padding: 40px;
-
-			#MC-details {
-				background-color: white;
-				padding: 40px;
-				box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.85);
-			}
-		}
+		align-self: center;
 	}
 }
 
-@media screen and (max-width: 1300px) {
-	#select-list {
-		grid-area: selectList;
+#filtering-inputs {
+	padding: 10px 40px 10px 40px;
+	background-color: #688b58;
+	display: grid;
+	grid-template-columns: auto auto auto auto;
+	gap: 10px;
+
+	#select-list,
+	#select-genre,
+	#input-year,
+	#filters-btn {
+		padding: 5px;
+		border: 1px solid black;
+		border-radius: 6px;
 	}
-	#select-genre {
-		grid-area: selectGenre;
+}
+
+#movie-details-container {
+	background-color: #302a2d;
+	padding: 40px;
+}
+
+#movie-details {
+	background-color: white;
+	padding: 40px;
+	box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.85);
+	height: 100%;
+}
+
+@media screen and (min-width: 1400px) {
+	main {
+		display: grid;
+		grid-template-columns: 70ch auto;
+		grid-template-rows: repeat(12, 1fr);
+		grid-column-gap: 0px;
+		grid-row-gap: 0px;
 	}
-	#input-year {
-		grid-area: inputYear;
+	#poster-aside {
+		grid-area: 1 / 1 / 13 / 2;
 	}
 	#filtering-inputs {
-		display: grid;
-		grid-template-areas:
-			'selectList'
-			'selectGenre'
-			'inputYear';
-		grid-template-columns: auto !important;
+		grid-area: 1 / 2 / 2 / 3;
+	}
+	#movie-details-container {
+		grid-area: 2 / 2 / 13 / 3;
 	}
 }
 
-@media only screen and (max-width: 1050px) {
+@media screen and (max-width: 1400px) {
+	main {
+		display: grid;
+		grid-template-columns: 70ch auto;
+		grid-template-rows: repeat(6, 1fr);
+		grid-column-gap: 0px;
+		grid-row-gap: 0px;
+	}
+	#poster-aside {
+		grid-area: 1 / 1 / 7 / 2;
+	}
+	#filtering-inputs {
+		grid-area: 1 / 2 / 2 / 3;
+		display: grid;
+		grid-template-columns: auto;
+	}
+	#movie-details-container {
+		grid-area: 2 / 2 / 7 / 3;
+	}
+}
+
+@media screen and (max-width: 950px) {
 	header {
-		display: inline-table;
-	}
-	nav {
-		display: flex;
-		justify-content: center;
-	}
-	main {
-		display: inline-block;
-	}
-	aside {
-		width: 50%;
-		margin: auto;
+		display: block;
+
+		nav {
+			width: 100%;
+			display: inline-block;
+			text-align: center;
+		}
 	}
 
 	main {
 		display: grid;
-		grid-template-areas:
-			'movieAside'
-			'moviePoster';
-		grid-template-columns: auto !important;
+		grid-template-columns: auto;
+		grid-template-rows: auto;
+		grid-column-gap: 0px;
+		grid-row-gap: 0px;
 	}
-	#movie-aside {
-		grid-area: movieAside;
+	#filtering-inputs {
+		grid-area: 1 / 1 / 2 / 6;
+		height: fit-content;
 	}
-	#movie-poster {
-		grid-area: moviePoster;
+	#poster-aside {
+		grid-area: 2 / 1 / 3 / 6;
+		width: 100%;
+
+		#movie-poster {
+			width: 50%;
+			margin: auto;
+		}
+	}
+	#movie-details-container {
+		grid-area: 3 / 1 / 4 / 6;
 	}
 }
 
-@media only screen and (max-width: 750px) {
-	aside {
-		width: 65%;
-		margin: auto;
+@media screen and (max-width: 600px) {
+	main {
+		display: grid;
+		grid-template-columns: auto;
+		grid-template-rows: auto;
+		grid-column-gap: 0px;
+		grid-row-gap: 0px;
 	}
-}
-
-@media only screen and (max-width: 500px) {
-	aside {
-		width: 85%;
-		margin: auto;
+	#filtering-inputs {
+		grid-area: 1 / 1 / 2 / 6;
+		height: fit-content;
+	}
+	#poster-aside {
+		grid-area: 2 / 1 / 3 / 6;
+		width: 100%;
+	}
+	#movie-details-container {
+		grid-area: 3 / 1 / 4 / 6;
 	}
 }

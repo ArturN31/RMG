@@ -1,4 +1,24 @@
-export default function FilteringInputs() {
+'use client';
+
+import { useState } from 'react';
+
+export default function FilteringInputs(props: { setFilters: Function }) {
+	const [listSelect, setListSelect] = useState('most_pop_movies');
+	const [genreSelect, setGenreSelect] = useState('null');
+	const [startYear, setStartYear] = useState();
+
+	const handleListSelect = (e: any) => setListSelect(e.target.value);
+	const handleGenreSelect = (e: any) => setGenreSelect(e.target.value);
+	const handleStartYear = (e: any) => setStartYear(e.target.value);
+	const handleFiltersUpdate = () => {
+		let filter = {
+			list: listSelect,
+			genre: genreSelect,
+			startYear: startYear,
+		};
+		console.log(filter);
+	};
+
 	//handles output of select List options
 	const SelectListOptions = () => {
 		//lists available to access through API
@@ -26,6 +46,7 @@ export default function FilteringInputs() {
 
 			return (
 				<option
+					onChange={(e: any) => handleListSelect(e)}
 					value={item}
 					key={item}>
 					{nameDisplay}
@@ -82,15 +103,29 @@ export default function FilteringInputs() {
 
 	return (
 		<div id='filtering-inputs'>
-			<select id='select-list'>
+			<select
+				id='select-list'
+				value={listSelect}
+				onChange={(e) => handleListSelect(e)}>
 				<SelectListOptions />
 			</select>
-			<select id='select-genre'>
+			<select
+				id='select-genre'
+				value={genreSelect}
+				onChange={(e: any) => handleGenreSelect(e)}>
 				<SelectGenreOptions />
 			</select>
 			<input
+				onChange={(e: any) => handleStartYear(e)}
 				id='input-year'
+				value={startYear}
+				placeholder='Start search from year...'
 				type='text'></input>
+			<button
+				id='filters-btn'
+				onClick={() => handleFiltersUpdate()}>
+				Update filters
+			</button>
 		</div>
 	);
 }
