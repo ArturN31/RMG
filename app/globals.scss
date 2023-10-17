@@ -2,44 +2,72 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+	background-image: url('/img/bg.webp');
+}
+
+$btnBG: #1c3244;
+$btnHoverBG: #061d24;
+
+$lightText: white;
+
 /* HEADER */
 @import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
 
 header {
-	background-color: #ffdf6b;
 	display: grid;
 	grid-template-columns: 70ch auto;
 	border: 3px solid black;
 	border-top: 0px;
 	border-left: 0px;
 	border-right: 0px;
+	height: 150px;
 
 	h1 {
-		color: white;
+		color: $lightText;
 		align-self: center;
 		font-size: 6rem;
-		text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.75);
+		text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.75);
 		text-align: center;
 		font-family: 'Lilita One';
 		-webkit-text-stroke: 3px;
 		-webkit-text-stroke-color: black;
+		user-select: none;
 	}
 
 	nav {
 		align-self: flex-end;
 
+		button:first-child {
+			border-right: 1px solid black;
+			border-left: 2px solid black;
+			border-top: 1px solid black;
+		}
+
+		button:nth-child(2) {
+			border-left: 1px solid black;
+			border-right: 2px solid black;
+			border-top: 1px solid black;
+		}
+
 		button {
-			background-color: #688b58;
-			border: 1px solid black;
+			background-color: $btnBG;
+			color: $lightText;
 			border-bottom: 0px;
 			padding: 10px;
 			border-radius: 10px 10px 0px 0px;
 			width: 150px;
-			color: white;
+			font-weight: 400;
+			text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+
+			&:hover {
+				background-color: $btnHoverBG;
+			}
 		}
 	}
 }
 
+/* POSTER */
 #poster-aside {
 	background-color: black;
 	display: flex;
@@ -51,70 +79,101 @@ header {
 	}
 }
 
+/* FILTERS */
 #filtering-inputs {
 	padding: 10px 40px 10px 40px;
-	background-color: #688b58;
 	display: grid;
-	grid-template-columns: auto auto auto auto;
+	grid-template-columns: auto auto auto auto auto;
 	gap: 10px;
+	border: 2px solid black;
+	border-top: 0px;
+	border-bottom: 0px;
+	background-color: #000000c0;
 
 	#select-list,
 	#select-genre,
 	#input-year,
-	#filters-btn {
+	#updateFilters-btn,
+	#newMovie-btn {
 		padding: 5px;
-		border: 1px solid black;
+		border: 2px solid black;
 		border-radius: 6px;
+		font-weight: 400;
+	}
+
+	.filters-btns {
+		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+		color: $lightText;
+		background-color: $btnBG;
+
+		&:hover {
+			background-color: $btnHoverBG;
+		}
 	}
 }
 
+/* MOVIE DETAILS */
 #movie-details-container {
-	background-color: #302a2d;
 	padding: 40px;
+	border: 2px solid black;
 }
 
 #movie-details {
 	background-color: white;
+	border: 2px solid black;
 	padding: 40px;
 	box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.85);
 	height: 100%;
 }
 
-@media screen and (min-width: 1400px) {
+/* RESPONSIVENESS */
+@media screen and (min-width: 1500px) {
+	body {
+		height: calc(100vh - 150px);
+	}
+
 	main {
 		display: grid;
 		grid-template-columns: 70ch auto;
-		grid-template-rows: repeat(12, 1fr);
+		grid-template-rows: auto 1fr;
 		grid-column-gap: 0px;
 		grid-row-gap: 0px;
+		height: 100%;
 	}
+
 	#poster-aside {
 		grid-area: 1 / 1 / 13 / 2;
 	}
+
 	#filtering-inputs {
 		grid-area: 1 / 2 / 2 / 3;
 	}
+
 	#movie-details-container {
 		grid-area: 2 / 2 / 13 / 3;
 	}
 }
 
-@media screen and (max-width: 1400px) {
+@media screen and (max-width: 1500px) {
 	main {
 		display: grid;
 		grid-template-columns: 70ch auto;
 		grid-template-rows: repeat(6, 1fr);
 		grid-column-gap: 0px;
 		grid-row-gap: 0px;
+		height: calc(100vh - 150px);
 	}
+
 	#poster-aside {
 		grid-area: 1 / 1 / 7 / 2;
 	}
+
 	#filtering-inputs {
 		grid-area: 1 / 2 / 2 / 3;
 		display: grid;
 		grid-template-columns: auto;
 	}
+
 	#movie-details-container {
 		grid-area: 2 / 2 / 7 / 3;
 	}
@@ -123,6 +182,7 @@ header {
 @media screen and (max-width: 950px) {
 	header {
 		display: block;
+		height: auto;
 
 		nav {
 			width: 100%;
@@ -138,10 +198,11 @@ header {
 		grid-column-gap: 0px;
 		grid-row-gap: 0px;
 	}
+
 	#filtering-inputs {
 		grid-area: 1 / 1 / 2 / 6;
-		height: fit-content;
 	}
+
 	#poster-aside {
 		grid-area: 2 / 1 / 3 / 6;
 		width: 100%;
@@ -151,6 +212,7 @@ header {
 			margin: auto;
 		}
 	}
+
 	#movie-details-container {
 		grid-area: 3 / 1 / 4 / 6;
 	}
@@ -164,14 +226,16 @@ header {
 		grid-column-gap: 0px;
 		grid-row-gap: 0px;
 	}
+
 	#filtering-inputs {
 		grid-area: 1 / 1 / 2 / 6;
-		height: fit-content;
 	}
+
 	#poster-aside {
 		grid-area: 2 / 1 / 3 / 6;
 		width: 100%;
 	}
+
 	#movie-details-container {
 		grid-area: 3 / 1 / 4 / 6;
 	}

@@ -18,6 +18,7 @@ export default function FilteringInputs(props: { setFilters: Function }) {
 		};
 		console.log(filter);
 	};
+	const handleNewMovie = () => {};
 
 	//handles output of select List options
 	const SelectListOptions = () => {
@@ -122,9 +123,16 @@ export default function FilteringInputs(props: { setFilters: Function }) {
 				placeholder='Start search from year...'
 				type='text'></input>
 			<button
-				id='filters-btn'
+				id='updateFilters-btn'
+				className='filters-btns'
 				onClick={() => handleFiltersUpdate()}>
 				Update filters
+			</button>
+			<button
+				id='newMovie-btn'
+				className='filters-btns'
+				onClick={() => handleNewMovie()}>
+				New Movie (spacebar)
 			</button>
 		</div>
 	);
