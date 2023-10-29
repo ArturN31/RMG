@@ -1,21 +1,70 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { ResponseFuncs } from '@/lib/types';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+	interface ResponseFuncs {
+		POST?: Function;
+	}
 	const method: keyof ResponseFuncs = req.method as keyof ResponseFuncs;
 
-	//function to catch errors
-	const catcher = (error: Error) => res.status(400).json({ error });
-
-	// Potential Responses
 	const handleCase: ResponseFuncs = {
-		// RESPONSE FOR GET REQUESTS
-		GET: async (req: NextApiRequest, res: NextApiResponse) => {
-			// res.json(await response.catch(catcher));
-		},
-		// RESPONSE POST REQUESTS
+		// RESPONSE FOR POST REQUESTS
 		POST: async (req: NextApiRequest, res: NextApiResponse) => {
-			// res.json(await response.catch(catcher));
+			//getting user request and parsing it to JSON
+			const filters: string = JSON.stringify(req.body);
+			type filtersJSONType = {
+				list: string;
+				genre: string;
+			};
+			const filtersJSON: filtersJSONType = JSON.parse(filters);
+
+			//getting filters
+			const list: string = filtersJSON.list;
+			const genre: string = filtersJSON.genre;
+
+			if (process.env.MOVIES_DATABASE_API_KEY !== undefined) {
+				//preping API url
+				let MoviesDatabaseAPIurl: string;
+				genre === 'null'
+					? (MoviesDatabaseAPIurl = `https://moviesdatabase.p.rapidapi.com/titles/random?&list=${list}&limit=1`)
+					: (MoviesDatabaseAPIurl = `https://moviesdatabase.p.rapidapi.com/titles/random?&genre=${genre}&list=${list}&limit=1`);
+
+				const options: Object = {
+					method: 'GET',
+					headers: {
+						'X-RapidAPI-Key': process.env.MOVIES_DATABASE_API_KEY,
+						'X-RapidAPI-Host': 'moviesdatabase.p.rapidapi.com',
+					},
+				};
+
+				//calling API to get a random movie
+				const getRandomMovie: Response = await fetch(MoviesDatabaseAPIurl, options).then((el: any) =>
+					el.json()
+				);
+
+				//getting movie IMDb ID
+				const getMovie: any = getRandomMovie;
+				const getMovieResults: any = getMovie.results[0];
+				if (getMovieResults !== undefined) {
+					const getMovieID: any = getMovieResults.id;
+
+					if (process.env.OMDB_API_KEY !== undefined) {
+						const OMDBAPIurl = `http://www.omdbapi.com/?apikey=${process.env.OMDB_API_KEY}&i=${getMovieID}&plot=full`;
+
+						const getMovieDetails: Response = await fetch(OMDBAPIurl).then((el: any) => el.json());
+
+						const responseToFrontend = {
+							movie: await getMovieResults,
+							movieDetails: await getMovieDetails,
+						};
+
+						//sending response
+						res.status(200).send(await responseToFrontend);
+					}
+				} else {
+					//there are no movies that match genre and list
+					res.status(404).send({ message: 'Not found' });
+				}
+			}
 		},
 	};
 
