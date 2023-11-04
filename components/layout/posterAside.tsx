@@ -7,44 +7,44 @@ export default function PosterAside() {
 	const movieState = useAppSelector((state: RootState) => state.movie);
 	const movie: any = movieState.movie;
 
-	const getPosterURL = () => {
+	let getPosterData = (movie: any) => {
 		if (movie.movie) {
-			return movie.movie.primaryImage.url;
+			//destructuring state
+			const { primaryImage } = movie.movie;
+
+			//getting poster data
+			const posterURL: string = primaryImage.url;
+			const posterAltText: string = primaryImage.caption.plainText;
+			const height: number = primaryImage.height;
+			const width: number = primaryImage.width;
+
+			//prep poster data object
+			let posterData = {
+				posterURL: posterURL,
+				posterAltText: posterAltText,
+				height: height,
+				width: width,
+			};
+
+			return posterData;
 		}
 	};
 
-	const getPosterAltText = () => {
-		if (movie.movie) {
-			return movie.movie.primaryImage.caption.plainText;
-		}
-	};
-
-	const getPosterHeight = () => {
-		if (movie.movie) {
-			return movie.movie.primaryImage.height;
-		}
-	};
-
-	const getPosterWidth = () => {
-		if (movie.movie) {
-			return movie.movie.primaryImage.height;
-		}
-	};
-
-	const posterURL: string = getPosterURL();
-	const posterAltText: string = getPosterAltText();
-	const height: number = getPosterHeight();
-	const width: number = getPosterWidth();
+	let posterData = getPosterData(movie);
 
 	return (
 		<div id='poster-aside'>
-			{posterURL && posterAltText && height && width ? (
+			{posterData &&
+			posterData.posterURL &&
+			posterData.posterAltText &&
+			posterData.height &&
+			posterData.width ? (
 				<Image
 					id='movie-poster'
-					width={width}
-					height={height}
-					alt={posterAltText}
-					src={posterURL}
+					width={posterData.width}
+					height={posterData.height}
+					alt={posterData.posterAltText}
+					src={posterData.posterURL}
 				/>
 			) : (
 				''

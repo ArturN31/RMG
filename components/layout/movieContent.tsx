@@ -5,92 +5,124 @@ import { RootState } from '@/lib/reduxStore/store';
 
 export default function MovieContent() {
 	const movieState = useAppSelector((state: RootState) => state.movie);
-	const movie: any = movieState.movie;
 
-	const getMovieTitle = () => {
+	let getMovieData = (movie: any) => {
 		if (movie.movie) {
-			return movie.movie.titleText.text;
+			//destructuring state
+			const { titleText, originalTitleText, releaseDate } = movie.movie;
+			const { Runtime, Director, Plot, Actors } = movie.movieDetails;
+
+			//get title
+			const getTitle: string = titleText.text;
+			const getOriginalTitle: string = originalTitleText.text;
+
+			//get date
+			const getDay: number = releaseDate.day;
+			const getMonth: number = releaseDate.month;
+			const getYear: number = releaseDate.year;
+			const date: string = `${getDay}/${getMonth}/${getYear}`;
+
+			//get runtime
+			const getRuntime: number = Runtime.split(' ')[0];
+			const getRuntimeString = (runtime: number) => {
+				//if more than one hour
+				if (getRuntime / 60 > 1) {
+					if (getRuntime % 60 === 0) return `${Math.round(runtime / 60)} hrs`;
+					else return `${Math.round(runtime / 60)} hrs ${runtime % 60} min`;
+				}
+				//if one hour
+				if (getRuntime / 60 === 1) {
+					if (getRuntime % 60 === 0) return `${Math.round(runtime / 60)} hrs`;
+					else return `${Math.round(runtime / 60)} hrs ${runtime % 60} min`;
+				}
+				//if less than one hour
+				if (getRuntime / 60 < 1) return `${runtime} min`;
+			};
+			const runtime = getRuntimeString(getRuntime);
+
+			//get directors
+			const getDirectors = (directors: string) => {
+				return directors.split(', ').map((director) => {
+					return <p key={director}>{director}</p>;
+				});
+			};
+			const directors = getDirectors(Director);
+
+			//get actors
+			const getActors = Actors.split(', ').map((actor: string) => <p key={actor}>{actor}</p>);
+
+			/*
+				ADD RATING, LANGUAGE, COUNTRY, AWARDS
+				
+				"Ratings":
+					[{
+						"Source":"Internet Movie Database",
+						"Value":"7.2/10"
+					}],
+				"Metascore":"N/A",
+				"imdbRating":"7.2",
+				"imdbVotes":"78"
+
+				"Language":"Hebrew, English",
+				"Country":"Israel, Germany",
+				"Awards":"1 win & 2 nominations" 
+			*/
+
+			//prep movie data object
+			const movieData = {
+				title: getTitle,
+				originalTitle: getOriginalTitle,
+				releaseDate: date,
+				runtime: runtime,
+				directors: directors,
+				plot: Plot,
+				actors: getActors,
+			};
+
+			return movieData;
 		}
 	};
 
-	const getOriginalMovieTitle = () => {
-		if (movie.movie) {
-			return movie.movie.originalTitleText.text;
-		}
-	};
-
-	const getMovieDate = () => {
-		if (movie.movie) {
-			const releaseDate = movie.movie.releaseDate;
-			const day = releaseDate.day;
-			const month = releaseDate.month;
-			const year = releaseDate.year;
-			const date = `${day}/${month}/${year}`;
-			return date;
-		} else return '';
-	};
-
-	const getMovieLength = () => {
-		if (movie.movieDetails) {
-			return movie.movieDetails.Runtime;
-		}
-	};
-
-	const getMovieDirector = () => {
-		if (movie.movieDetails) {
-			return movie.movieDetails.Director;
-		}
-	};
-
-	const getMovieActors = () => {
-		if (movie.movieDetails) {
-			const actors = movie.movieDetails.Actors.split(', ');
-			return actors.map((actor: string) => <p key={actor}>{actor}</p>);
-		}
-	};
-
-	const getMoviePlot = () => {
-		if (movie.movieDetails) {
-			return movie.movieDetails.Plot;
-		}
-	};
-
-	const title: string = getMovieTitle();
-	const originalTitle: string = getOriginalMovieTitle();
-	const date: string = getMovieDate();
-	const length: number = getMovieLength();
-	const director: number = getMovieDirector();
-	const actors: number = getMovieActors();
-	const plot: number = getMoviePlot();
+	let movieData = getMovieData(movieState.movie);
 
 	return (
 		<div id='movie-details-container'>
 			<div id='movie-details'>
-				{!movieState.movie.hasOwnProperty('message') ? (
+				{/* Displays movie content if there is no message */}
+				{!movieState.hasOwnProperty('message') && movieData ? (
 					<>
-						<div id='title'>
-							<h2>Title: {title}</h2>
-							<h3>Original Title: ({originalTitle})</h3>
-							<h4>
-								Release date: {date} | Length: {length}
-							</h4>
+						<div id='movie-title'>
+							<p>{movieData.title}</p>
+							{movieData.title !== movieData.originalTitle ? (
+								<p id='og-movie-title'>({movieData.originalTitle})</p>
+							) : (
+								''
+							)}
 						</div>
-						<div id='director'>
-							<p>Director:</p>
-							<p>{director}</p>
+
+						<p id='movie-release'>Released: {movieData.releaseDate}</p>
+						<p id='movie-runtime'>Runtime: {movieData.runtime}</p>
+
+						<div className='movie-subdetails'>
+							<p id='movie-actors-title'>Director(s):</p>
+							{movieData.directors}
 						</div>
-						<div id='actors'>
-							<p>Actors:</p>
-							{actors}
+
+						<div className='movie-subdetails'>
+							<p id='movie-actors-title'>Actor(s):</p>
+							{movieData.actors}
 						</div>
-						<div id='plot'>
-							<p>Plot:</p>
-							<p>{plot}</p>
+
+						<div className='movie-subdetails'>
+							<p id='movie-plot-title'>Plot:</p>
+							<p style={{ textAlign: 'justify' }}>{movieData.plot}</p>
 						</div>
 					</>
 				) : (
 					''
 				)}
+
+				{/* Displays error */}
 				{movieState.error ? <p>{movieState.error}</p> : ''}
 			</div>
 		</div>
