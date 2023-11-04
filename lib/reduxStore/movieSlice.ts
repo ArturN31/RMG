@@ -4,12 +4,12 @@ import type { RootState } from './store';
 //defining type for the slice state
 interface FiltersState {
 	movie: Object;
-	movieDetails: Object;
+	error: String;
 }
 
 const initialState: FiltersState = {
 	movie: {},
-	movieDetails: {},
+	error: '',
 };
 
 export const movieSlice = createSlice({
@@ -19,12 +19,12 @@ export const movieSlice = createSlice({
 		setMovie: (state, action: PayloadAction<Object>) => {
 			state.movie = action.payload;
 		},
-		setMovieDetails: (state, action: PayloadAction<Object>) => {
-			state.movieDetails = action.payload;
+		setNoMovieRetrievedError: (state, action: PayloadAction<string>) => {
+			state.error = action.payload;
 		},
 	},
 });
 
-export const { setMovie, setMovieDetails } = movieSlice.actions;
+export const { setMovie, setNoMovieRetrievedError } = movieSlice.actions;
 export const selectMovie = (state: RootState) => state.movie;
 export default movieSlice.reducer;

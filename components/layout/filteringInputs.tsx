@@ -2,15 +2,24 @@
 
 import { useAppSelector, useAppDispatch } from '@/lib/reduxStore/hooks';
 import { setList, setGenre } from '@/lib/reduxStore/filtersSlice';
-import { setMovie, setMovieDetails } from '@/lib/reduxStore/movieSlice';
+import { setMovie, setNoMovieRetrievedError } from '@/lib/reduxStore/movieSlice';
 import { RootState } from '@/lib/reduxStore/store';
 
 import SelectListOptions from '../filteringInputs/selectLIstOptions';
 import SelectGenreOptions from '../filteringInputs/selectGenreOptions';
+import { useEffect } from 'react';
 
 export default function FilteringInputs() {
 	const filters = useAppSelector((state: RootState) => state.filters);
+	const movieState = useAppSelector((state: RootState) => state.movie);
+
 	const dispatch = useAppDispatch();
+
+	//initial page load
+	useEffect(() => {
+		//if movieState is empty fetch movie
+		if (Object.keys(movieState.movie).length === 0) handleNewMovie();
+	});
 
 	//handler functions
 	const handleListSelect = (e: any) => dispatch(setList(e.target.value));
@@ -33,11 +42,18 @@ export default function FilteringInputs() {
 			body: JSON.stringify(filter),
 		}).then((res) => res.json());
 
-		//handle message not found
-		console.log(APIres);
-
-		//setting state
-		dispatch(setMovie(APIres));
+		//handles message not found
+		if (Object.keys(APIres).includes('message')) {
+			const genre =
+				filters.genre.charAt(0).toLocaleLowerCase() + filters.genre.substring(1, filters.genre.length);
+			const list = filters.list.replaceAll('_', ' ');
+			dispatch(setNoMovieRetrievedError(`There are no ${genre} movies in the ${list} list.`));
+			dispatch(setMovie(APIres));
+		} else {
+			//if there is no error sent from API.
+			dispatch(setNoMovieRetrievedError(''));
+			dispatch(setMovie(APIres));
+		}
 	};
 
 	return (
@@ -58,7 +74,7 @@ export default function FilteringInputs() {
 				id='newMovie-btn'
 				className='filters-btns'
 				onClick={() => handleNewMovie()}>
-				New Movie (spacebar)
+				New Movie
 			</button>
 		</div>
 	);

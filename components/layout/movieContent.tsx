@@ -66,25 +66,32 @@ export default function MovieContent() {
 	return (
 		<div id='movie-details-container'>
 			<div id='movie-details'>
-				<div id='title'>
-					<h2>Title: {title}</h2>
-					<h3>Original Title: ({originalTitle})</h3>
-					<h4>
-						Release date: {date} | Length: {length}
-					</h4>
-				</div>
-				<div id='director'>
-					<p>Director:</p>
-					<p>{director}</p>
-				</div>
-				<div id='actors'>
-					<p>Actors:</p>
-					{actors}
-				</div>
-				<div id='plot'>
-					<p>Plot:</p>
-					<p>{plot}</p>
-				</div>
+				{!movieState.movie.hasOwnProperty('message') ? (
+					<>
+						<div id='title'>
+							<h2>Title: {title}</h2>
+							<h3>Original Title: ({originalTitle})</h3>
+							<h4>
+								Release date: {date} | Length: {length}
+							</h4>
+						</div>
+						<div id='director'>
+							<p>Director:</p>
+							<p>{director}</p>
+						</div>
+						<div id='actors'>
+							<p>Actors:</p>
+							{actors}
+						</div>
+						<div id='plot'>
+							<p>Plot:</p>
+							<p>{plot}</p>
+						</div>
+					</>
+				) : (
+					''
+				)}
+				{movieState.error ? <p>{movieState.error}</p> : ''}
 			</div>
 		</div>
 	);

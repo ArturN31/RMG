@@ -179,7 +179,7 @@ header {
 	}
 }
 
-@media screen and (max-width: 950px) {
+@media screen and (max-width: 1200px) {
 	header {
 		display: block;
 		height: auto;
@@ -211,29 +211,6 @@ header {
 			width: 50%;
 			margin: auto;
 		}
-	}
-
-	#movie-details-container {
-		grid-area: 3 / 1 / 4 / 6;
-	}
-}
-
-@media screen and (max-width: 600px) {
-	main {
-		display: grid;
-		grid-template-columns: auto;
-		grid-template-rows: auto;
-		grid-column-gap: 0px;
-		grid-row-gap: 0px;
-	}
-
-	#filtering-inputs {
-		grid-area: 1 / 1 / 2 / 6;
-	}
-
-	#poster-aside {
-		grid-area: 2 / 1 / 3 / 6;
-		width: 100%;
 	}
 
 	#movie-details-container {
