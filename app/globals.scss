@@ -77,6 +77,12 @@ header {
 		height: 100%;
 		align-self: center;
 	}
+
+	#poster-error {
+		color: $lightText;
+		padding: 40px;
+		margin: auto;
+	}
 }
 
 /* FILTERS */
@@ -130,16 +136,11 @@ header {
 			font-size: larger;
 		}
 
-		#movie-release {
-			padding: 10px 0px 0px 0px;
-		}
-
 		.movie-subdetails {
 			padding: 10px 0px 5px 0px;
 		}
 
-		#movie-actors-title,
-		#movie-plot-title {
+		.movie-section-title {
 			font-weight: 500;
 		}
 	}

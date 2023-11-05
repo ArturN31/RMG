@@ -13,17 +13,29 @@ export default function PosterAside() {
 			const { primaryImage } = movie.movie;
 
 			//getting poster data
-			const posterURL: string = primaryImage.url;
-			const posterAltText: string = primaryImage.caption.plainText;
-			const height: number = primaryImage.height;
-			const width: number = primaryImage.width;
+			const getPosterData = (image: any) => {
+				if (image) {
+					const posterURL: string = image.url;
+					const posterAltText: string = image.caption.plainText;
+					const height: number = image.height;
+					const width: number = image.width;
+					return {
+						posterURL,
+						posterAltText,
+						height,
+						width,
+					};
+				} else return { message: 'Poster cannot be retrieved.' };
+			};
+			const poster = getPosterData(primaryImage);
 
 			//prep poster data object
 			let posterData = {
-				posterURL: posterURL,
-				posterAltText: posterAltText,
-				height: height,
-				width: width,
+				posterURL: poster.posterURL,
+				posterAltText: poster.posterAltText,
+				height: poster.height,
+				width: poster.width,
+				message: poster.message,
 			};
 
 			return posterData;
@@ -47,7 +59,7 @@ export default function PosterAside() {
 					src={posterData.posterURL}
 				/>
 			) : (
-				''
+				<p id='poster-error'>{posterData?.message}</p>
 			)}
 		</div>
 	);

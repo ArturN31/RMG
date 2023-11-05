@@ -10,17 +10,22 @@ export default function MovieContent() {
 		if (movie.movie) {
 			//destructuring state
 			const { titleText, originalTitleText, releaseDate } = movie.movie;
-			const { Runtime, Director, Plot, Actors } = movie.movieDetails;
+			const { Runtime, Director, Plot, Actors, imdbRating, imdbVotes, Awards } = movie.movieDetails;
 
 			//get title
 			const getTitle: string = titleText.text;
 			const getOriginalTitle: string = originalTitleText.text;
 
 			//get date
-			const getDay: number = releaseDate.day;
-			const getMonth: number = releaseDate.month;
-			const getYear: number = releaseDate.year;
-			const date: string = `${getDay}/${getMonth}/${getYear}`;
+			const getDate = (releaseDate: any) => {
+				if (releaseDate && releaseDate.day) {
+					const getDay: number = releaseDate.day;
+					const getMonth: number = releaseDate.month;
+					const getYear: number = releaseDate.year;
+					if (getDay && getMonth && getYear) return new Date(getYear, getMonth - 1, getDay).toLocaleDateString();
+				} else return 'Date cannot be retrieved';
+			};
+			const date = getDate(releaseDate);
 
 			//get runtime
 			const getRuntime: number = Runtime.split(' ')[0];
@@ -37,11 +42,15 @@ export default function MovieContent() {
 				}
 				//if less than one hour
 				if (getRuntime / 60 < 1) return `${runtime} min`;
+
+				//returns runtime such as '57S'
+				return getRuntime;
 			};
 			const runtime = getRuntimeString(getRuntime);
 
 			//get directors
 			const getDirectors = (directors: string) => {
+				if (directors === 'N/A') return 'No Directors';
 				return directors.split(', ').map((director) => {
 					return <p key={director}>{director}</p>;
 				});
@@ -52,20 +61,10 @@ export default function MovieContent() {
 			const getActors = Actors.split(', ').map((actor: string) => <p key={actor}>{actor}</p>);
 
 			/*
-				ADD RATING, LANGUAGE, COUNTRY, AWARDS
-				
-				"Ratings":
-					[{
-						"Source":"Internet Movie Database",
-						"Value":"7.2/10"
-					}],
-				"Metascore":"N/A",
-				"imdbRating":"7.2",
-				"imdbVotes":"78"
+				LANGUAGE, COUNTRY
 
 				"Language":"Hebrew, English",
 				"Country":"Israel, Germany",
-				"Awards":"1 win & 2 nominations" 
 			*/
 
 			//prep movie data object
@@ -77,6 +76,9 @@ export default function MovieContent() {
 				directors: directors,
 				plot: Plot,
 				actors: getActors,
+				imdbRating: imdbRating,
+				imdbVotes: imdbVotes,
+				awards: Awards,
 			};
 
 			return movieData;
@@ -93,28 +95,37 @@ export default function MovieContent() {
 					<>
 						<div id='movie-title'>
 							<p>{movieData.title}</p>
-							{movieData.title !== movieData.originalTitle ? (
-								<p id='og-movie-title'>({movieData.originalTitle})</p>
-							) : (
-								''
-							)}
-						</div>
-
-						<p id='movie-release'>Released: {movieData.releaseDate}</p>
-						<p id='movie-runtime'>Runtime: {movieData.runtime}</p>
-
-						<div className='movie-subdetails'>
-							<p id='movie-actors-title'>Director(s):</p>
-							{movieData.directors}
+							{movieData.title !== movieData.originalTitle ? <p>({movieData.originalTitle})</p> : ''}
 						</div>
 
 						<div className='movie-subdetails'>
-							<p id='movie-actors-title'>Actor(s):</p>
+							<p>
+								IMDb rating: {movieData.imdbRating} - {movieData.imdbVotes} votes
+							</p>
+
+							{movieData.releaseDate !== 'Date cannot be retrieved' ? <p>Released: {movieData.releaseDate}</p> : ''}
+
+							{movieData.runtime !== 'N/A' ? <p>Runtime: {movieData.runtime}</p> : ''}
+
+							{movieData.awards !== 'N/A' ? <p>Awards: {movieData.awards} </p> : ''}
+						</div>
+
+						{movieData.directors !== 'No Directors' ? (
+							<div className='movie-subdetails'>
+								<p className='movie-section-title'>Director(s):</p>
+								{movieData.directors}
+							</div>
+						) : (
+							''
+						)}
+
+						<div className='movie-subdetails'>
+							<p className='movie-section-title'>Actor(s):</p>
 							{movieData.actors}
 						</div>
 
 						<div className='movie-subdetails'>
-							<p id='movie-plot-title'>Plot:</p>
+							<p className='movie-section-title'>Plot:</p>
 							<p style={{ textAlign: 'justify' }}>{movieData.plot}</p>
 						</div>
 					</>
