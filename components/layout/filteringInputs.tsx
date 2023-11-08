@@ -44,8 +44,7 @@ export default function FilteringInputs() {
 
 		//handles message not found
 		if (Object.keys(APIres).includes('message')) {
-			const genre =
-				filters.genre.charAt(0).toLocaleLowerCase() + filters.genre.substring(1, filters.genre.length);
+			const genre = filters.genre;
 			const list = filters.list.replaceAll('_', ' ');
 			dispatch(setNoMovieRetrievedError(`There are no ${genre} movies in the ${list} list.`));
 			dispatch(setMovie(APIres));

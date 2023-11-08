@@ -10,7 +10,7 @@ export default function MovieContent() {
 		if (movie.movie) {
 			//destructuring state
 			const { titleText, originalTitleText, releaseDate } = movie.movie;
-			const { Runtime, Director, Plot, Actors, imdbRating, imdbVotes, Awards } = movie.movieDetails;
+			const { Runtime, Director, Plot, Actors, imdbRating, imdbVotes, Awards, Language, Country } = movie.movieDetails;
 
 			//get title
 			const getTitle: string = titleText.text;
@@ -60,12 +60,18 @@ export default function MovieContent() {
 			//get actors
 			const getActors = Actors.split(', ').map((actor: string) => <p key={actor}>{actor}</p>);
 
-			/*
-				LANGUAGE, COUNTRY
-
-				"Language":"Hebrew, English",
-				"Country":"Israel, Germany",
-			*/
+			//get votes
+			const getVotes = (votes: any) => {
+				console.log(votes);
+				const v = votes.replace(',', '');
+				//returns thousands
+				if (v > 1000) return '~' + (v / 1000).toFixed(0) + 'K votes';
+				//returns milions
+				if (v > 1000000) return '~' + (v / 1000000).toFixed(0) + 'M votes';
+				//returns hundreds
+				return v + ' votes';
+			};
+			const votes = getVotes(imdbVotes);
 
 			//prep movie data object
 			const movieData = {
@@ -77,8 +83,10 @@ export default function MovieContent() {
 				plot: Plot,
 				actors: getActors,
 				imdbRating: imdbRating,
-				imdbVotes: imdbVotes,
+				imdbVotes: votes,
 				awards: Awards,
+				language: Language,
+				country: Country,
 			};
 
 			return movieData;
@@ -93,39 +101,96 @@ export default function MovieContent() {
 				{/* Displays movie content if there is no message */}
 				{!movieState.hasOwnProperty('message') && movieData ? (
 					<>
-						<div id='movie-title'>
-							<p>{movieData.title}</p>
-							{movieData.title !== movieData.originalTitle ? <p>({movieData.originalTitle})</p> : ''}
+						{/* Displays movie title */}
+						<div id='title-rating-block'>
+							<div id='movie-title'>
+								<p>{movieData.title}</p>
+								{movieData.title !== movieData.originalTitle ? <p>({movieData.originalTitle})</p> : ''}
+							</div>
+							{/* Displays rating and votes */}
+							{movieData.imdbRating !== 'N/A' ? (
+								<div id='rating-container'>
+									<p id='rating'>
+										<span>{movieData.imdbRating}</span>/10 <span id='star'></span>
+									</p>
+									<p id='votes'>{movieData.imdbVotes}</p>
+								</div>
+							) : (
+								''
+							)}
+						</div>
+
+						<div>
+							{/* Release date */}
+							{movieData.releaseDate !== 'Date cannot be retrieved' ? <span>{movieData.releaseDate}</span> : ''}
+
+							{/* Displays | when release date and runtime are both retrieved */}
+							{movieData.releaseDate !== 'Date cannot be retrieved' && movieData.runtime !== 'N/A' ? (
+								<span> | </span>
+							) : (
+								''
+							)}
+
+							{/* Runtime */}
+							{movieData.runtime !== 'N/A' ? <span>{movieData.runtime}</span> : ''}
 						</div>
 
 						<div className='movie-subdetails'>
-							<p>
-								IMDb rating: {movieData.imdbRating} - {movieData.imdbVotes} votes
-							</p>
+							{/* Awards */}
+							{movieData.awards !== 'N/A' ? (
+								<p>
+									<span className='movie-section-title'>Awards:</span> {movieData.awards}
+								</p>
+							) : (
+								''
+							)}
 
-							{movieData.releaseDate !== 'Date cannot be retrieved' ? <p>Released: {movieData.releaseDate}</p> : ''}
+							{/* Language */}
+							<div>
+								{movieData.language.split(', ').length > 1 ? (
+									<p>
+										<span className='movie-section-title'>Languages:</span> {movieData.language}
+									</p>
+								) : (
+									<p>
+										<span className='movie-section-title'>Language:</span> {movieData.language}
+									</p>
+								)}
+							</div>
 
-							{movieData.runtime !== 'N/A' ? <p>Runtime: {movieData.runtime}</p> : ''}
-
-							{movieData.awards !== 'N/A' ? <p>Awards: {movieData.awards} </p> : ''}
+							{/* Country */}
+							<div>
+								{movieData.country.split(', ').length > 1 ? (
+									<p>
+										<span className='movie-section-title'>Countries:</span> {movieData.country}
+									</p>
+								) : (
+									<p>
+										<span className='movie-section-title'>Country:</span> {movieData.country}
+									</p>
+								)}
+							</div>
 						</div>
 
+						{/* Directors */}
 						{movieData.directors !== 'No Directors' ? (
 							<div className='movie-subdetails'>
-								<p className='movie-section-title'>Director(s):</p>
+								<p className='movie-section-title'>{movieData.directors.length > 1 ? 'Director(s):' : 'Director:'}</p>
 								{movieData.directors}
 							</div>
 						) : (
 							''
 						)}
 
+						{/* Actors */}
 						<div className='movie-subdetails'>
-							<p className='movie-section-title'>Actor(s):</p>
+							<p className='movie-section-title'>Stars:</p>
 							{movieData.actors}
 						</div>
 
+						{/* Storyline */}
 						<div className='movie-subdetails'>
-							<p className='movie-section-title'>Plot:</p>
+							<p className='movie-section-title'>Storyline:</p>
 							<p style={{ textAlign: 'justify' }}>{movieData.plot}</p>
 						</div>
 					</>
