@@ -5,11 +5,13 @@ import type { RootState } from './store';
 interface FiltersState {
 	movie: Object;
 	error: String;
+	posterLoaded: boolean;
 }
 
 const initialState: FiltersState = {
 	movie: {},
 	error: '',
+	posterLoaded: false,
 };
 
 export const movieSlice = createSlice({
@@ -22,9 +24,12 @@ export const movieSlice = createSlice({
 		setNoMovieRetrievedError: (state, action: PayloadAction<string>) => {
 			state.error = action.payload;
 		},
+		setPosterLoaded: (state, action: PayloadAction<boolean>) => {
+			state.posterLoaded = action.payload;
+		},
 	},
 });
 
-export const { setMovie, setNoMovieRetrievedError } = movieSlice.actions;
+export const { setMovie, setNoMovieRetrievedError, setPosterLoaded } = movieSlice.actions;
 export const selectMovie = (state: RootState) => state.movie;
 export default movieSlice.reducer;

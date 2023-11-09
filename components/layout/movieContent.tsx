@@ -1,11 +1,16 @@
 'use client';
 
-import { useAppSelector } from '@/lib/reduxStore/hooks';
+import { useAppSelector, useAppDispatch } from '@/lib/reduxStore/hooks';
 import { RootState } from '@/lib/reduxStore/store';
-import { run } from 'node:test';
+import { useEffect, useState } from 'react';
+import { setPosterLoaded } from '@/lib/reduxStore/movieSlice';
 
 export default function MovieContent() {
 	const movieState = useAppSelector((state: RootState) => state.movie);
+	const posterLoaded = useAppSelector((state: RootState) => state.movie.posterLoaded);
+	const dispatch = useAppDispatch();
+
+	const [movieData, setMovieData] = useState<movieInterface>();
 
 	interface movieInterface {
 		title: string;
@@ -109,7 +114,15 @@ export default function MovieContent() {
 		}
 	};
 
-	const movieData = getMovieData(movieState.movie);
+	//holds movie data
+	const preppedMovieData = getMovieData(movieState.movie);
+
+	//set the movie data so that it appears when the poster loads.
+	useEffect(() => {
+		if (posterLoaded === true) setMovieData(preppedMovieData);
+		dispatch(setPosterLoaded(false));
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [posterLoaded]);
 
 	return (
 		<div id='movie-details-container'>
