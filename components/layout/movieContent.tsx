@@ -2,9 +2,25 @@
 
 import { useAppSelector } from '@/lib/reduxStore/hooks';
 import { RootState } from '@/lib/reduxStore/store';
+import { run } from 'node:test';
 
 export default function MovieContent() {
 	const movieState = useAppSelector((state: RootState) => state.movie);
+
+	interface movieInterface {
+		title: string;
+		originalTitle: string;
+		releaseDate: string | undefined;
+		runtime: string;
+		directors: string | JSX.Element[];
+		plot: string;
+		actors: JSX.Element;
+		imdbRating: number | string;
+		imdbVotes: string;
+		awards: string;
+		language: string;
+		country: string;
+	}
 
 	let getMovieData = (movie: any) => {
 		if (movie.movie) {
@@ -31,22 +47,22 @@ export default function MovieContent() {
 			const getRuntime: number = Runtime.split(' ')[0];
 			const getRuntimeString = (runtime: number) => {
 				//if more than one hour
-				if (getRuntime / 60 > 1) {
-					if (getRuntime % 60 === 0) return `${Math.round(runtime / 60)} hrs`;
-					else return `${Math.round(runtime / 60)} hrs ${runtime % 60} min`;
+				if (Math.floor(runtime / 60) > 1) {
+					if (runtime % 60 === 0) return `${runtime / 60} hrs`;
+					else return `${Math.floor(runtime / 60)} hrs ${runtime % 60} min`;
 				}
 				//if one hour
-				if (getRuntime / 60 === 1) {
-					if (getRuntime % 60 === 0) return `${Math.round(runtime / 60)} hrs`;
-					else return `${Math.round(runtime / 60)} hrs ${runtime % 60} min`;
+				if (Math.floor(runtime / 60) === 1) {
+					if (runtime % 60 === 0) return `${runtime / 60} hr`;
+					else return `${Math.floor(runtime / 60)} hr ${runtime % 60} min`;
 				}
 				//if less than one hour
-				if (getRuntime / 60 < 1) return `${runtime} min`;
+				if (runtime / 60 < 1) return `${runtime} min`;
 
 				//returns runtime such as '57S'
-				return getRuntime;
+				return `${runtime}`;
 			};
-			const runtime = getRuntimeString(getRuntime);
+			const runtime: string = getRuntimeString(getRuntime);
 
 			//get directors
 			const getDirectors = (directors: string) => {
@@ -55,26 +71,27 @@ export default function MovieContent() {
 					return <p key={director}>{director}</p>;
 				});
 			};
-			const directors = getDirectors(Director);
+			const directors: string | JSX.Element[] = getDirectors(Director);
 
 			//get actors
-			const getActors = Actors.split(', ').map((actor: string) => <p key={actor}>{actor}</p>);
+			const getActors: JSX.Element = Actors.split(', ').map((actor: string) => <p key={actor}>{actor}</p>);
 
 			//get votes
 			const getVotes = (votes: any) => {
-				console.log(votes);
 				const v = votes.replace(',', '');
+				const thousand = 1000;
+				const milion = 1000000;
 				//returns thousands
-				if (v > 1000) return '~' + (v / 1000).toFixed(0) + 'K votes';
+				if (v > thousand) return `~ ${(v / thousand).toFixed(0)} K votes`;
 				//returns milions
-				if (v > 1000000) return '~' + (v / 1000000).toFixed(0) + 'M votes';
+				if (v > milion) return `~ ${(v / milion).toFixed(0)} M votes`;
 				//returns hundreds
-				return v + ' votes';
+				return `${v} votes`;
 			};
-			const votes = getVotes(imdbVotes);
+			const votes: string = getVotes(imdbVotes);
 
 			//prep movie data object
-			const movieData = {
+			const movieData: movieInterface = {
 				title: getTitle,
 				originalTitle: getOriginalTitle,
 				releaseDate: date,
@@ -88,12 +105,11 @@ export default function MovieContent() {
 				language: Language,
 				country: Country,
 			};
-
 			return movieData;
 		}
 	};
 
-	let movieData = getMovieData(movieState.movie);
+	const movieData = getMovieData(movieState.movie);
 
 	return (
 		<div id='movie-details-container'>
