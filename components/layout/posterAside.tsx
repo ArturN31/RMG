@@ -3,12 +3,15 @@ import Image from 'next/image';
 import { useAppSelector, useAppDispatch } from '@/lib/reduxStore/hooks';
 import { RootState } from '@/lib/reduxStore/store';
 import { setPosterLoaded, setPosterError } from '@/lib/reduxStore/movieSlice';
+import { useEffect, useState } from 'react';
 
 export default function PosterAside() {
 	const movieState = useAppSelector((state: RootState) => state.movie);
 	const posterError = useAppSelector((state: RootState) => state.movie.posterError);
 	const movie: any = movieState.movie;
 	const dispatch = useAppDispatch();
+
+	const [posterData, setPosterData] = useState<any>();
 
 	let getPosterData = (movie: any) => {
 		if (movie.movie) {
@@ -47,7 +50,10 @@ export default function PosterAside() {
 		}
 	};
 
-	let posterData = getPosterData(movie);
+	useEffect(() => {
+		setPosterData(getPosterData(movie));
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [movie]);
 
 	return (
 		<div id='poster-aside'>
