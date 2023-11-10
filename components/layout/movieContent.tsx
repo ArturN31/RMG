@@ -8,6 +8,7 @@ import { setPosterLoaded } from '@/lib/reduxStore/movieSlice';
 export default function MovieContent() {
 	const movieState = useAppSelector((state: RootState) => state.movie);
 	const posterLoaded = useAppSelector((state: RootState) => state.movie.posterLoaded);
+	const posterError = useAppSelector((state: RootState) => state.movie.posterError);
 	const dispatch = useAppDispatch();
 
 	const [movieData, setMovieData] = useState<movieInterface>();
@@ -119,10 +120,10 @@ export default function MovieContent() {
 
 	//set the movie data so that it appears when the poster loads.
 	useEffect(() => {
-		if (posterLoaded === true) setMovieData(preppedMovieData);
+		if (posterLoaded === true || posterError) setMovieData(preppedMovieData);
 		dispatch(setPosterLoaded(false));
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [posterLoaded]);
+	}, [posterLoaded, posterError]);
 
 	return (
 		<div id='movie-details-container'>

@@ -2,10 +2,11 @@ import Image from 'next/image';
 
 import { useAppSelector, useAppDispatch } from '@/lib/reduxStore/hooks';
 import { RootState } from '@/lib/reduxStore/store';
-import { setPosterLoaded } from '@/lib/reduxStore/movieSlice';
+import { setPosterLoaded, setPosterError } from '@/lib/reduxStore/movieSlice';
 
 export default function PosterAside() {
 	const movieState = useAppSelector((state: RootState) => state.movie);
+	const posterError = useAppSelector((state: RootState) => state.movie.posterError);
 	const movie: any = movieState.movie;
 	const dispatch = useAppDispatch();
 
@@ -27,7 +28,10 @@ export default function PosterAside() {
 						height,
 						width,
 					};
-				} else return { message: 'Poster cannot be retrieved.' };
+				} else {
+					dispatch(setPosterError('Poster cannot be retrieved.'));
+					return {};
+				}
 			};
 			const poster = getPosterData(primaryImage);
 
@@ -37,7 +41,6 @@ export default function PosterAside() {
 				posterAltText: poster.posterAltText,
 				height: poster.height,
 				width: poster.width,
-				message: poster.message,
 			};
 
 			return posterData;
@@ -46,14 +49,10 @@ export default function PosterAside() {
 
 	let posterData = getPosterData(movie);
 
-	//if the poster is loaded, this function sets the state that will be used to output movie data alongside the poster.
-	const handlePosterLoaded = () => {
-		if (posterData?.message) dispatch(setPosterLoaded(true));
-		else dispatch(setPosterLoaded(true));
-	};
-
 	return (
 		<div id='poster-aside'>
+			{posterError !== '' ? <p id='poster-error'>{posterError}</p> : ''}
+
 			{posterData && posterData.posterURL && posterData.posterAltText && posterData.height && posterData.width ? (
 				<Image
 					priority
@@ -62,10 +61,17 @@ export default function PosterAside() {
 					height={posterData.height}
 					alt={posterData.posterAltText}
 					src={posterData.posterURL}
-					onLoad={() => handlePosterLoaded()}
+					onLoad={() => {
+						dispatch(setPosterLoaded(true));
+						dispatch(setPosterError(''));
+					}}
+					onError={() => {
+						dispatch(setPosterLoaded(false));
+						dispatch(setPosterError('Image cannot be loaded'));
+					}}
 				/>
 			) : (
-				<p id='poster-error'>{posterData?.message}</p>
+				''
 			)}
 		</div>
 	);

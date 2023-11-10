@@ -7,13 +7,17 @@ import { RootState } from '@/lib/reduxStore/store';
 
 import SelectListOptions from '../filteringInputs/selectLIstOptions';
 import SelectGenreOptions from '../filteringInputs/selectGenreOptions';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { setPosterLoaded } from '@/lib/reduxStore/movieSlice';
 
 export default function FilteringInputs() {
 	const filters = useAppSelector((state: RootState) => state.filters);
 	const movieState = useAppSelector((state: RootState) => state.movie);
-
+	const posterLoaded = useAppSelector((state: RootState) => state.movie.posterLoaded);
+	const posterError = useAppSelector((state: RootState) => state.movie.posterError);
 	const dispatch = useAppDispatch();
+
+	const [isClicked, setIsClicked] = useState<boolean>(false);
 
 	//initial page load
 	useEffect(() => {
@@ -25,6 +29,9 @@ export default function FilteringInputs() {
 	const handleListSelect = (e: any) => dispatch(setList(e.target.value));
 	const handleGenreSelect = (e: any) => dispatch(setGenre(e.target.value));
 	const handleNewMovie = async () => {
+		dispatch(setPosterLoaded(false));
+		setIsClicked(true);
+
 		//creating filter object
 		let filter: Object = {
 			list: filters.list,
@@ -55,6 +62,10 @@ export default function FilteringInputs() {
 		}
 	};
 
+	useEffect(() => {
+		if (posterLoaded === true) setIsClicked(false);
+	}, [posterLoaded]);
+
 	return (
 		<div id='filtering-inputs'>
 			<select
@@ -73,7 +84,12 @@ export default function FilteringInputs() {
 				id='newMovie-btn'
 				className='filters-btns'
 				onClick={() => handleNewMovie()}>
-				New Movie
+				{/* - Renders loader when button is clicked.
+					- Loader is displayed until poster loads or there is an error.
+					- When loader disappears New Movie text is displayed instead of it.
+				*/}
+				{isClicked === true && !posterError ? <span className='loader'></span> : ''}
+				{(isClicked === false && !posterError) || (posterLoaded === false && posterError) ? 'New Movie' : ''}
 			</button>
 		</div>
 	);

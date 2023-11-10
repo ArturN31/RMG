@@ -6,12 +6,14 @@ interface FiltersState {
 	movie: Object;
 	error: String;
 	posterLoaded: boolean;
+	posterError: string;
 }
 
 const initialState: FiltersState = {
 	movie: {},
 	error: '',
 	posterLoaded: false,
+	posterError: '',
 };
 
 export const movieSlice = createSlice({
@@ -27,9 +29,12 @@ export const movieSlice = createSlice({
 		setPosterLoaded: (state, action: PayloadAction<boolean>) => {
 			state.posterLoaded = action.payload;
 		},
+		setPosterError: (state, action: PayloadAction<string>) => {
+			state.posterError = action.payload;
+		},
 	},
 });
 
-export const { setMovie, setNoMovieRetrievedError, setPosterLoaded } = movieSlice.actions;
+export const { setMovie, setNoMovieRetrievedError, setPosterLoaded, setPosterError } = movieSlice.actions;
 export const selectMovie = (state: RootState) => state.movie;
 export default movieSlice.reducer;
