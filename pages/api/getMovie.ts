@@ -37,9 +37,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 				};
 
 				//calling API to get a random movie
-				const getRandomMovie: Response = await fetch(MoviesDatabaseAPIurl, options).then((el: any) =>
-					el.json()
-				);
+				const getRandomMovie: Response = await fetch(MoviesDatabaseAPIurl, options).then((el: any) => el.json());
 
 				//getting movie IMDb ID
 				const getMovie: any = getRandomMovie;

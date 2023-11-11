@@ -7,6 +7,7 @@ import { RootState } from '@/lib/reduxStore/store';
 
 import SelectListOptions from '../filteringInputs/selectLIstOptions';
 import SelectGenreOptions from '../filteringInputs/selectGenreOptions';
+import NewMovieButton from '../filteringInputs/newMovieBtn';
 import { useEffect, useState } from 'react';
 import { setPosterLoaded } from '@/lib/reduxStore/movieSlice';
 
@@ -14,7 +15,6 @@ export default function FilteringInputs() {
 	const filters = useAppSelector((state: RootState) => state.filters);
 	const movieState = useAppSelector((state: RootState) => state.movie);
 	const posterLoaded = useAppSelector((state: RootState) => state.movie.posterLoaded);
-	const posterError = useAppSelector((state: RootState) => state.movie.posterError);
 	const dispatch = useAppDispatch();
 
 	const [isClicked, setIsClicked] = useState<boolean>(false);
@@ -23,7 +23,8 @@ export default function FilteringInputs() {
 	useEffect(() => {
 		//if movieState is empty fetch movie
 		if (Object.keys(movieState.movie).length === 0) handleNewMovie();
-	});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	//handler functions
 	const handleListSelect = (e: any) => dispatch(setList(e.target.value));
@@ -80,17 +81,12 @@ export default function FilteringInputs() {
 				onChange={(e: any) => handleGenreSelect(e)}>
 				<SelectGenreOptions />
 			</select>
-			<button
-				id='newMovie-btn'
-				className='filters-btns'
-				onClick={() => handleNewMovie()}>
-				{/* - Renders loader when button is clicked.
-					- Loader is displayed until poster loads or there is an error.
-					- When loader disappears New Movie text is displayed instead of it.
-				*/}
-				{isClicked === true && !posterError ? <span className='loader'></span> : ''}
-				{(isClicked === false && !posterError) || (posterLoaded === false && posterError) ? 'New Movie' : ''}
-			</button>
+			<NewMovieButton
+				isClicked={isClicked}
+				handleNewMovie={handleNewMovie}
+				movieState={movieState}
+				posterLoaded={posterLoaded}
+			/>
 		</div>
 	);
 }

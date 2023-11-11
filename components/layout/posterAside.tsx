@@ -4,6 +4,7 @@ import { useAppSelector, useAppDispatch } from '@/lib/reduxStore/hooks';
 import { RootState } from '@/lib/reduxStore/store';
 import { setPosterLoaded, setPosterError } from '@/lib/reduxStore/movieSlice';
 import { useEffect, useState } from 'react';
+import imgNotAvailable from '../../public/img/Image_not_available.png';
 
 export default function PosterAside() {
 	const movieState = useAppSelector((state: RootState) => state.movie);
@@ -57,7 +58,16 @@ export default function PosterAside() {
 
 	return (
 		<div id='poster-aside'>
-			{posterError !== '' ? <p id='poster-error'>{posterError}</p> : ''}
+			{posterError !== '' ? (
+				<Image
+					id='movie-poster'
+					src={imgNotAvailable}
+					width={400}
+					height={400}
+					alt='Image not available'></Image>
+			) : (
+				''
+			)}
 
 			{posterData && posterData.posterURL && posterData.posterAltText && posterData.height && posterData.width ? (
 				<Image

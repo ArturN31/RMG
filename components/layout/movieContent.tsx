@@ -5,6 +5,16 @@ import { RootState } from '@/lib/reduxStore/store';
 import { useEffect, useState } from 'react';
 import { setPosterLoaded } from '@/lib/reduxStore/movieSlice';
 
+import MovieTitle from '../movieContent/title';
+import MovieRating from '../movieContent/rating';
+import ReleaseDateAndRuntime from '../movieContent/releaseDateAndRuntime';
+import Awards from '../movieContent/awards';
+import Language from '../movieContent/language';
+import Country from '../movieContent/country';
+import Director from '../movieContent/director';
+import Actors from '../movieContent/actors';
+import Storyline from '../movieContent/storyline';
+
 export default function MovieContent() {
 	const movieState = useAppSelector((state: RootState) => state.movie);
 	const posterLoaded = useAppSelector((state: RootState) => state.movie.posterLoaded);
@@ -128,101 +138,38 @@ export default function MovieContent() {
 	return (
 		<div id='movie-details-container'>
 			<div id='movie-details'>
-				{/* Displays movie content if there is no message */}
-				{!movieState.hasOwnProperty('message') && movieData ? (
+				{/* Displays movie content if there is no error message */}
+				{!movieState.error && movieData ? (
 					<>
-						{/* Displays movie title */}
 						<div id='title-rating-block'>
-							<div id='movie-title'>
-								<p>{movieData.title}</p>
-								{movieData.title !== movieData.originalTitle ? <p>({movieData.originalTitle})</p> : ''}
-							</div>
-							{/* Displays rating and votes */}
-							{movieData.imdbRating !== 'N/A' ? (
-								<div id='rating-container'>
-									<p id='rating'>
-										<span>{movieData.imdbRating}</span>/10 <span id='star'></span>
-									</p>
-									<p id='votes'>{movieData.imdbVotes}</p>
-								</div>
-							) : (
-								''
-							)}
+							<MovieTitle
+								title={movieData.title}
+								originalTitle={movieData.originalTitle}
+							/>
+							<MovieRating
+								imdbRating={movieData.imdbRating}
+								imdbVotes={movieData.imdbVotes}
+							/>
 						</div>
 
-						<div>
-							{/* Release date */}
-							{movieData.releaseDate !== 'Date cannot be retrieved' ? <span>{movieData.releaseDate}</span> : ''}
-
-							{/* Displays | when release date and runtime are both retrieved */}
-							{movieData.releaseDate !== 'Date cannot be retrieved' && movieData.runtime !== 'N/A' ? (
-								<span> | </span>
-							) : (
-								''
-							)}
-
-							{/* Runtime */}
-							{movieData.runtime !== 'N/A' ? <span>{movieData.runtime}</span> : ''}
-						</div>
+						<ReleaseDateAndRuntime
+							releaseDate={movieData.releaseDate}
+							runtime={movieData.runtime}
+						/>
 
 						<div className='movie-subdetails'>
-							{/* Awards */}
-							{movieData.awards !== 'N/A' ? (
-								<p>
-									<span className='movie-section-title'>Awards:</span> {movieData.awards}
-								</p>
-							) : (
-								''
-							)}
+							<Awards awards={movieData.awards} />
 
-							{/* Language */}
-							<div>
-								{movieData.language.split(', ').length > 1 ? (
-									<p>
-										<span className='movie-section-title'>Languages:</span> {movieData.language}
-									</p>
-								) : (
-									<p>
-										<span className='movie-section-title'>Language:</span> {movieData.language}
-									</p>
-								)}
-							</div>
+							<Language language={movieData.language} />
 
-							{/* Country */}
-							<div>
-								{movieData.country.split(', ').length > 1 ? (
-									<p>
-										<span className='movie-section-title'>Countries:</span> {movieData.country}
-									</p>
-								) : (
-									<p>
-										<span className='movie-section-title'>Country:</span> {movieData.country}
-									</p>
-								)}
-							</div>
+							<Country country={movieData.country} />
 						</div>
 
-						{/* Directors */}
-						{movieData.directors !== 'No Directors' ? (
-							<div className='movie-subdetails'>
-								<p className='movie-section-title'>{movieData.directors.length > 1 ? 'Director(s):' : 'Director:'}</p>
-								{movieData.directors}
-							</div>
-						) : (
-							''
-						)}
+						<Director directors={movieData.directors} />
 
-						{/* Actors */}
-						<div className='movie-subdetails'>
-							<p className='movie-section-title'>Stars:</p>
-							{movieData.actors}
-						</div>
+						<Actors actors={movieData.actors} />
 
-						{/* Storyline */}
-						<div className='movie-subdetails'>
-							<p className='movie-section-title'>Storyline:</p>
-							<p style={{ textAlign: 'justify' }}>{movieData.plot}</p>
-						</div>
+						<Storyline plot={movieData.plot} />
 					</>
 				) : (
 					''
