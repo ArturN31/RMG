@@ -14,6 +14,7 @@ import Country from '../movieContent/country';
 import Director from '../movieContent/director';
 import Actors from '../movieContent/actors';
 import Storyline from '../movieContent/storyline';
+import WatchlistButton from '../movieContent/watchlistBtn';
 
 export default function MovieContent() {
 	const movieState = useAppSelector((state: RootState) => state.movie);
@@ -22,21 +23,6 @@ export default function MovieContent() {
 	const dispatch = useAppDispatch();
 
 	const [movieData, setMovieData] = useState<movieInterface>();
-
-	interface movieInterface {
-		title: string;
-		originalTitle: string;
-		releaseDate: string | undefined;
-		runtime: string;
-		directors: string | JSX.Element[];
-		plot: string;
-		actors: JSX.Element;
-		imdbRating: number | string;
-		imdbVotes: string;
-		awards: string;
-		language: string;
-		country: string;
-	}
 
 	let getMovieData = (movie: any) => {
 		if (movie.movie) {
@@ -141,7 +127,7 @@ export default function MovieContent() {
 				{/* Displays movie content if there is no error message */}
 				{!movieState.error && movieData ? (
 					<>
-						<div id='title-rating-block'>
+						<div className='two-cols-block'>
 							<MovieTitle
 								title={movieData.title}
 								originalTitle={movieData.originalTitle}
@@ -152,10 +138,13 @@ export default function MovieContent() {
 							/>
 						</div>
 
-						<ReleaseDateAndRuntime
-							releaseDate={movieData.releaseDate}
-							runtime={movieData.runtime}
-						/>
+						<div className='two-cols-block'>
+							<ReleaseDateAndRuntime
+								releaseDate={movieData.releaseDate}
+								runtime={movieData.runtime}
+							/>
+							<WatchlistButton movieState={movieState.movie} />
+						</div>
 
 						<div className='movie-subdetails'>
 							<Awards awards={movieData.awards} />

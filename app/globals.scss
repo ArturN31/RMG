@@ -174,7 +174,7 @@ header {
 		height: 100%;
 		overflow-y: auto;
 
-		#title-rating-block {
+		.two-cols-block {
 			display: flex;
 			justify-content: space-between;
 			gap: 10px 40px;
@@ -235,6 +235,12 @@ header {
 					font-size: small;
 					color: #acb2b4;
 					margin-top: -7px;
+				}
+			}
+
+			#watchlistBtn {
+				&:hover {
+					opacity: 0.8;
 				}
 			}
 		}
@@ -372,9 +378,6 @@ header {
 		width: calc(100vw - 100px);
 		height: max-content;
 		margin: 40px 40px 0px 40px;
-
-		#movie-poster {
-		}
 	}
 
 	#movie-details-container {
