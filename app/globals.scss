@@ -10,9 +10,12 @@ $btnBG: #1c3244;
 $btnHoverBG: #061d24;
 
 $lightText: white;
+$uiFontFamily: 'Space Grotesk', sans-serif;
+$uiLetterSpacing: 0.25px;
 
 /* HEADER */
 @import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk&display=swap');
 
 header {
 	display: grid;
@@ -50,6 +53,16 @@ header {
 			border-top: 1px solid black;
 		}
 
+		a.active > button {
+			background-color: #000000c0;
+			border: 1px solid rgba(255, 255, 255, 0.664);
+			border-bottom: 0px;
+
+			&:hover {
+				cursor: default;
+			}
+		}
+
 		button {
 			background-color: $btnBG;
 			color: $lightText;
@@ -59,6 +72,8 @@ header {
 			width: 150px;
 			font-weight: 400;
 			text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+			font-family: $uiFontFamily;
+			letter-spacing: $uiLetterSpacing;
 
 			&:hover {
 				background-color: $btnHoverBG;
@@ -92,9 +107,29 @@ header {
 	border-bottom: 0px;
 	background-color: #000000c0;
 
+	div {
+		display: grid;
+		label {
+			font-family: $uiFontFamily;
+			letter-spacing: $uiLetterSpacing;
+			background-color: $btnBG;
+			color: $lightText;
+			width: fit-content;
+			user-select: none;
+
+			margin-bottom: -10px;
+			margin-left: 2px;
+			border-radius: 5px 5px 0px 0px;
+			padding: 0px 9px 9px 9px;
+		}
+		select {
+			font-family: 'Quicksand', sans-serif;
+			letter-spacing: $uiLetterSpacing;
+		}
+	}
+
 	#select-list,
 	#select-genre,
-	#input-year,
 	#updateFilters-btn,
 	#newMovie-btn {
 		padding: 5px;
@@ -107,6 +142,8 @@ header {
 		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
 		color: $lightText;
 		background-color: $btnBG;
+		font-family: $uiFontFamily;
+		letter-spacing: $uiLetterSpacing;
 
 		&:hover {
 			background-color: $btnHoverBG;
@@ -233,12 +270,19 @@ header {
 
 				#votes {
 					font-size: small;
-					color: #acb2b4;
+					color: #696c6d;
 					margin-top: -7px;
 				}
 			}
 
-			#watchlistBtn {
+			#release-runtime-block {
+				align-self: center;
+			}
+
+			#watchlistBtn,
+			#watchlistedBtn {
+				margin-top: 10px;
+
 				&:hover {
 					opacity: 0.8;
 				}
@@ -337,12 +381,12 @@ header {
 	}
 
 	#poster-aside {
-		height: calc(100vh - 344px);
+		height: calc(100vh - 390px);
 		grid-area: 2 / 1 / 12 / 7;
 	}
 
 	#movie-details-container {
-		height: calc(100vh - 344px);
+		height: calc(100vh - 390px);
 		grid-area: 2 / 7 / 12 / 12;
 	}
 }

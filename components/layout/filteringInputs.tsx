@@ -69,18 +69,25 @@ export default function FilteringInputs() {
 
 	return (
 		<div id='filtering-inputs'>
-			<select
-				id='select-list'
-				value={filters.list}
-				onChange={(e: any) => handleListSelect(e)}>
-				<SelectListOptions />
-			</select>
-			<select
-				id='select-genre'
-				value={filters.genre}
-				onChange={(e: any) => handleGenreSelect(e)}>
-				<SelectGenreOptions />
-			</select>
+			<div>
+				<label htmlFor='select-list'>List</label>
+				<select
+					id='select-list'
+					value={filters.list}
+					onChange={(e: any) => handleListSelect(e)}>
+					<SelectListOptions />
+				</select>
+			</div>
+
+			<div>
+				<label htmlFor='select-genre'>Genre</label>
+				<select
+					id='select-genre'
+					value={filters.genre}
+					onChange={(e: any) => handleGenreSelect(e)}>
+					<SelectGenreOptions />
+				</select>
+			</div>
 			<NewMovieButton
 				isClicked={isClicked}
 				handleNewMovie={handleNewMovie}

@@ -85,9 +85,9 @@ export default function WatchlistButton(props: any) {
 			<Image
 				id='watchlistBtn'
 				src={Watchlisted}
-				width={50}
-				height={50}
-				alt=''
+				width={40}
+				height={40}
+				alt='Remove current movie from watchlist.'
 				onClick={() => handleClick(movieState)}></Image>
 		</button>
 	) : (
@@ -95,9 +95,9 @@ export default function WatchlistButton(props: any) {
 			<Image
 				id='watchlistBtn'
 				src={Watchlist}
-				width={50}
-				height={50}
-				alt=''
+				width={40}
+				height={40}
+				alt='Add current movie to watchlist.'
 				onClick={() => handleClick(movieState)}></Image>
 		</button>
 	);

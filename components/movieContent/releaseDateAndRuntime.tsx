@@ -3,7 +3,7 @@
 export default function ReleaseDateAndRuntime(props: any) {
 	const { releaseDate, runtime } = props;
 	return (
-		<div>
+		<div id='release-runtime-block'>
 			{/* Release date */}
 			{releaseDate !== 'Date cannot be retrieved' ? <span>{releaseDate}</span> : ''}
 
