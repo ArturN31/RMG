@@ -3,19 +3,19 @@
 @tailwind utilities;
 
 body {
-	background-image: url('/img/bg.webp');
+	background-image: url("/img/bg.webp");
 }
 
 $btnBG: #1c3244;
 $btnHoverBG: #061d24;
 
 $lightText: white;
-$uiFontFamily: 'Space Grotesk', sans-serif;
+$uiFontFamily: "Space Grotesk", sans-serif;
 $uiLetterSpacing: 0.25px;
 
 /* HEADER */
-@import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lilita+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk&display=swap");
 
 header {
 	display: grid;
@@ -32,7 +32,7 @@ header {
 		font-size: 6rem;
 		text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.75);
 		text-align: center;
-		font-family: 'Lilita One';
+		font-family: "Lilita One";
 		-webkit-text-stroke: 3px;
 		-webkit-text-stroke-color: black;
 		user-select: none;
@@ -109,6 +109,7 @@ header {
 
 	div {
 		display: grid;
+
 		label {
 			font-family: $uiFontFamily;
 			letter-spacing: $uiLetterSpacing;
@@ -122,15 +123,15 @@ header {
 			border-radius: 5px 5px 0px 0px;
 			padding: 0px 9px 9px 9px;
 		}
+
 		select {
-			font-family: 'Quicksand', sans-serif;
+			font-family: "Quicksand", sans-serif;
 			letter-spacing: $uiLetterSpacing;
 		}
 	}
 
 	#select-list,
 	#select-genre,
-	#updateFilters-btn,
 	#newMovie-btn {
 		padding: 5px;
 		border: 2px solid black;
@@ -138,12 +139,15 @@ header {
 		font-weight: 400;
 	}
 
-	.filters-btns {
+	#newMovie-btn {
 		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
 		color: $lightText;
 		background-color: $btnBG;
 		font-family: $uiFontFamily;
 		letter-spacing: $uiLetterSpacing;
+		align-self: flex-end;
+		height: 33px;
+		overflow: hidden;
 
 		&:hover {
 			background-color: $btnHoverBG;
@@ -164,34 +168,74 @@ header {
 
 		@keyframes shadowRolling {
 			0% {
-				box-shadow: 0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0),
+				box-shadow:
+					0px 0 rgba(255, 255, 255, 0),
+					0px 0 rgba(255, 255, 255, 0),
+					0px 0 rgba(255, 255, 255, 0),
 					0px 0 rgba(255, 255, 255, 0);
 			}
+
 			12% {
-				box-shadow: 100px 0 white, 0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0),
+				box-shadow:
+					100px 0 white,
+					0px 0 rgba(255, 255, 255, 0),
+					0px 0 rgba(255, 255, 255, 0),
 					0px 0 rgba(255, 255, 255, 0);
 			}
+
 			25% {
-				box-shadow: 110px 0 white, 100px 0 white, 0px 0 rgba(255, 255, 255, 0), 0px 0 rgba(255, 255, 255, 0);
+				box-shadow:
+					110px 0 white,
+					100px 0 white,
+					0px 0 rgba(255, 255, 255, 0),
+					0px 0 rgba(255, 255, 255, 0);
 			}
+
 			36% {
-				box-shadow: 120px 0 white, 110px 0 white, 100px 0 white, 0px 0 rgba(255, 255, 255, 0);
+				box-shadow:
+					120px 0 white,
+					110px 0 white,
+					100px 0 white,
+					0px 0 rgba(255, 255, 255, 0);
 			}
+
 			50% {
-				box-shadow: 130px 0 white, 120px 0 white, 110px 0 white, 100px 0 white;
+				box-shadow:
+					130px 0 white,
+					120px 0 white,
+					110px 0 white,
+					100px 0 white;
 			}
+
 			62% {
-				box-shadow: 200px 0 rgba(255, 255, 255, 0), 130px 0 white, 120px 0 white, 110px 0 white;
+				box-shadow:
+					200px 0 rgba(255, 255, 255, 0),
+					130px 0 white,
+					120px 0 white,
+					110px 0 white;
 			}
+
 			75% {
-				box-shadow: 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0), 130px 0 white, 120px 0 white;
+				box-shadow:
+					200px 0 rgba(255, 255, 255, 0),
+					200px 0 rgba(255, 255, 255, 0),
+					130px 0 white,
+					120px 0 white;
 			}
+
 			87% {
-				box-shadow: 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0),
+				box-shadow:
+					200px 0 rgba(255, 255, 255, 0),
+					200px 0 rgba(255, 255, 255, 0),
+					200px 0 rgba(255, 255, 255, 0),
 					130px 0 white;
 			}
+
 			100% {
-				box-shadow: 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0), 200px 0 rgba(255, 255, 255, 0),
+				box-shadow:
+					200px 0 rgba(255, 255, 255, 0),
+					200px 0 rgba(255, 255, 255, 0),
+					200px 0 rgba(255, 255, 255, 0),
 					200px 0 rgba(255, 255, 255, 0);
 			}
 		}
@@ -251,7 +295,7 @@ header {
 
 						&:before,
 						&:after {
-							content: '';
+							content: "";
 							display: block;
 							position: absolute;
 							top: 0.6em;
@@ -276,15 +320,42 @@ header {
 			}
 
 			#release-runtime-block {
-				align-self: center;
+				margin-top: 10px;
+				font-style: italic;
+				font-weight: 300;
 			}
 
-			#watchlistBtn,
-			#watchlistedBtn {
+			#watchlistBtn-container {
+				display: grid;
 				margin-top: 10px;
 
-				&:hover {
-					opacity: 0.8;
+				button {
+					width: fit-content;
+					justify-self: end;
+
+					#watchlistBtn {
+						&:hover {
+							opacity: 0.8;
+						}
+					}
+				}
+
+				#watchlistBtn-popup {
+					visibility: hidden;
+
+					height: 0px;
+					position: absolute;
+					margin-top: -9px;
+					margin-left: -110px;
+
+					background-color: #000000c0;
+					width: 105px;
+					padding: 5px;
+					border-radius: 3px;
+
+					color: $lightText;
+					text-align: center;
+					user-select: none;
 				}
 			}
 		}
@@ -381,12 +452,12 @@ header {
 	}
 
 	#poster-aside {
-		height: calc(100vh - 390px);
+		height: calc(100vh - 377px);
 		grid-area: 2 / 1 / 12 / 7;
 	}
 
 	#movie-details-container {
-		height: calc(100vh - 390px);
+		height: calc(100vh - 377px);
 		grid-area: 2 / 7 / 12 / 12;
 	}
 }
@@ -418,10 +489,13 @@ header {
 
 	#poster-aside {
 		grid-area: 2 / 1 / 3 / 6;
-		background-color: $lightText;
-		width: calc(100vw - 100px);
-		height: max-content;
-		margin: 40px 40px 0px 40px;
+		margin: 20px 40px -20px 40px;
+		height: fit-content;
+
+		#movie-poster {
+			width: calc(100vw - 70%);
+			margin: auto;
+		}
 	}
 
 	#movie-details-container {
@@ -433,7 +507,7 @@ header {
 @media screen and (max-width: 600px) {
 	#poster-aside {
 		#movie-poster {
-			width: 100%;
+			width: 99%;
 		}
 	}
 }

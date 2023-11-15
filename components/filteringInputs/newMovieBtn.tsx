@@ -10,7 +10,6 @@ export default function NewMovieButton(props: any) {
 	return (
 		<button
 			id='newMovie-btn'
-			className='filters-btns'
 			onClick={() => handleNewMovie()}>
 			{/* - Renders loader when button is clicked.
                 - Loader is displayed until poster loads or there is an error.

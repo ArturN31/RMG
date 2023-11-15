@@ -80,25 +80,51 @@ export default function WatchlistButton(props: any) {
 		}
 	};
 
+	const handlePopupOn = () => {
+		const getPopupElement = document.getElementById('watchlistBtn-popup');
+		if (getPopupElement) {
+			getPopupElement.style.visibility = 'visible';
+			getPopupElement.style.height = 'auto';
+		}
+	};
+
+	const handlePopupOff = () => {
+		const getPopupElement = document.getElementById('watchlistBtn-popup');
+		if (getPopupElement) {
+			getPopupElement.style.visibility = 'hidden';
+			getPopupElement.style.height = '0px';
+		}
+	};
+
 	return isWatchlisted === true ? (
-		<button>
-			<Image
-				id='watchlistBtn'
-				src={Watchlisted}
-				width={40}
-				height={40}
-				alt='Remove current movie from watchlist.'
-				onClick={() => handleClick(movieState)}></Image>
-		</button>
+		<div id='watchlistBtn-container'>
+			<button>
+				<Image
+					id='watchlistBtn'
+					src={Watchlisted}
+					width={40}
+					height={40}
+					alt='Remove current movie from watchlist.'
+					onClick={() => handleClick(movieState)}
+					onMouseOver={() => handlePopupOn()}
+					onMouseOut={() => handlePopupOff()}></Image>
+			</button>
+			<p id='watchlistBtn-popup'>Remove from watchlist</p>
+		</div>
 	) : (
-		<button>
-			<Image
-				id='watchlistBtn'
-				src={Watchlist}
-				width={40}
-				height={40}
-				alt='Add current movie to watchlist.'
-				onClick={() => handleClick(movieState)}></Image>
-		</button>
+		<div id='watchlistBtn-container'>
+			<button>
+				<Image
+					id='watchlistBtn'
+					src={Watchlist}
+					width={40}
+					height={40}
+					alt='Add current movie to watchlist.'
+					onClick={() => handleClick(movieState)}
+					onMouseOver={() => handlePopupOn()}
+					onMouseOut={() => handlePopupOff()}></Image>
+			</button>
+			<p id='watchlistBtn-popup'>Add to watchlist</p>
+		</div>
 	);
 }
