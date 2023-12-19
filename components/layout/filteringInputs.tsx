@@ -50,12 +50,14 @@ export default function FilteringInputs() {
 			body: JSON.stringify(filter),
 		}).then((res) => res.json());
 
-		//handles message not found
-		if (Object.keys(APIres).includes('message')) {
-			const genre = filters.genre;
-			const list = filters.list.replaceAll('_', ' ');
-			dispatch(setNoMovieRetrievedError(`There are no ${genre} movies in the ${list} list.`));
-			dispatch(setMovie(APIres));
+		//handles errors sent from api
+		let errorWithMessage = Object.keys(APIres).includes('message');
+		if (errorWithMessage) {
+			let errorMessage: string[] = Object.values(APIres);
+			if (errorMessage[0]) {
+				dispatch(setNoMovieRetrievedError(`${errorMessage[0]}`));
+				dispatch(setMovie(APIres));
+			}
 		} else {
 			//if there is no error sent from API.
 			dispatch(setNoMovieRetrievedError(''));

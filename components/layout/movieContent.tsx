@@ -165,7 +165,7 @@ export default function MovieContent() {
 				)}
 
 				{/* Displays error */}
-				{movieState.error ? <p>{movieState.error}</p> : ''}
+				{movieState.error ? <div>{movieState.error}</div> : ''}
 			</div>
 		</div>
 	);

@@ -1,0 +1,235 @@
+$btnBG: #1c3244;
+$btnHoverBG: #061d24;
+
+$lightText: white;
+$uiFontFamily: "Space Grotesk", sans-serif;
+$uiLetterSpacing: 0.25px;
+
+#movie-block {
+    display: grid;
+
+    #back-btn {
+        color: $lightText;
+        font-family: $uiFontFamily;
+        padding: 10px;
+        width: auto;
+        min-height: 5vh;
+        background-color: $btnBG;
+
+        &:hover {
+            background-color: $btnHoverBG;
+        }
+    }
+
+    #main-content {
+        display: grid;
+        grid-template-columns: 35% 65%;
+        height: 95vh;
+        min-height: 550px;
+
+        #poster {
+            height: inherit;
+            min-height: 800px;
+            border: 2px solid black;
+        }
+
+        #no-poster {
+            min-height: 30vh;
+            align-self: center;
+            margin: auto;
+            border: 2px solid black;
+            background-color: $btnHoverBG;
+        }
+
+        #movie-details {
+            background-color: white;
+            border: 2px solid black;
+            box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.85);
+            text-align: justify;
+            padding: 40px;
+            margin: 40px;
+
+            .two-cols-block {
+                display: flex;
+                justify-content: space-between;
+                gap: 10px 40px;
+
+                #movie-title {
+                    font-weight: 600;
+                    font-size: larger;
+                }
+
+                #rating-container {
+                    width: max-content;
+                    display: flex;
+                    flex-direction: column;
+
+                    #rating {
+                        display: flex;
+                        color: #545758;
+                        font-weight: 500;
+
+                        span {
+                            color: black;
+                            font-weight: 600;
+                        }
+
+                        #star {
+                            position: relative;
+                            display: inline-block;
+                            margin-left: 0.9em;
+                            margin-right: 0.9em;
+                            margin-bottom: 1.4em;
+                            border-right: 0.3em solid transparent;
+                            border-bottom: 0.7em solid #fc0;
+                            border-left: 0.3em solid transparent;
+
+                            /* Controlls the size of the star. */
+                            font-size: 13px;
+
+                            &:before,
+                            &:after {
+                                content: "";
+                                display: block;
+                                position: absolute;
+                                top: 0.6em;
+                                left: -1em;
+                                border-right: 1em solid transparent;
+                                border-bottom: 0.7em solid #fc0;
+                                border-left: 1em solid transparent;
+                                transform: rotate(-35deg);
+                            }
+
+                            &:after {
+                                transform: rotate(35deg);
+                            }
+                        }
+                    }
+
+                    #votes {
+                        font-size: small;
+                        color: #696c6d;
+                        margin-top: -7px;
+                    }
+                }
+            }
+
+            #release-runtime-block {
+                margin-top: 10px;
+                font-style: italic;
+                font-weight: 300;
+            }
+
+            #watchlistBtn-container {
+                display: grid;
+                margin-top: 10px;
+
+                button {
+                    width: fit-content;
+                    justify-self: end;
+
+                    #watchlistBtn {
+                        &:hover {
+                            opacity: 0.8;
+                        }
+                    }
+                }
+
+                #watchlistBtn-popup {
+                    visibility: hidden;
+
+                    height: 0px;
+                    position: absolute;
+                    margin-top: -9px;
+                    margin-left: -110px;
+
+                    background-color: #000000c0;
+                    width: 105px;
+                    padding: 5px;
+                    border-radius: 3px;
+
+                    color: $lightText;
+                    text-align: center;
+                    user-select: none;
+                }
+            }
+
+            .movie-subdetails {
+                padding: 10px 0px 5px 0px;
+            }
+
+            .movie-section-title {
+                font-weight: 500;
+            }
+        }
+    }
+}
+
+// /* RESPONSIVENESS */
+//above 900px to 1500px
+@media screen and (min-width: 900px) and (max-width: 1500px) {
+    #movie-block {
+        #main-content {
+            grid-template-columns: 40% 60%;
+
+            #poster {
+                height: fit-content;
+                align-self: center;
+                border-top: 2px solid black;
+            }
+
+            #poster {
+                height: fit-content;
+                align-self: center;
+                border-top: 2px solid black;
+            }
+        }
+    }
+}
+
+//above 750px to 900px
+@media screen and (min-width: 500px) and (max-width: 900px) {
+    #movie-block {
+        #main-content {
+            grid-template-columns: auto;
+            grid-template-rows: min-content auto;
+            height: fit-content;
+
+            #poster {
+                height: 50vh;
+                min-height: 500px;
+                width: auto;
+                margin: auto;
+            }
+
+            #no-poster {
+                height: 30vh;
+                border-top: 0px;
+            }
+        }
+    }
+}
+
+//below 750px
+@media screen and (max-width: 500px) {
+    #movie-block {
+        #main-content {
+            grid-template-columns: auto;
+            grid-template-rows: min-content auto;
+            height: fit-content;
+
+            #poster {
+                height: auto;
+                min-height: 500px;
+                width: calc(100% - 80px);
+                margin: auto;
+            }
+
+            #no-poster {
+                height: auto;
+                width: calc(100% - 80px);
+                margin: auto;
+            }
+        }
+    }
+}

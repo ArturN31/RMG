@@ -1,0 +1,104 @@
+$btnBG: #1c3244;
+$btnHoverBG: #061d24;
+
+$lightText: white;
+$uiFontFamily: "Space Grotesk", sans-serif;
+$uiLetterSpacing: 0.25px;
+
+#watchlist-runtime {
+    color: $lightText;
+    font-family: $uiFontFamily;
+    font-size: large;
+    letter-spacing: $uiLetterSpacing;
+    text-align: center;
+    padding-top: 15px;
+}
+
+#movies-section {
+    padding: 5px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 300px);
+    justify-content: center;
+
+    #movie-container {
+        color: $lightText;
+        background-color: $btnHoverBG;
+
+        display: grid;
+        grid-template-rows: max-content auto;
+
+        margin: 10px;
+        border: 2px solid black;
+        box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.85);
+
+        &:hover {
+            border-color: salmon;
+            border-radius: 10px;
+            cursor: pointer;
+
+            #poster {
+                border-radius: 8px 8px 0px 0px;
+                opacity: 0.7;
+            }
+        }
+
+        #poster {
+            height: 500px;
+            width: fit-content;
+            border-bottom: 1px solid black;
+        }
+
+        #no-poster-container {
+            height: 500px;
+            display: grid;
+            justify-items: center;
+            border-bottom: 1px solid black;
+
+            #no-poster {
+                align-self: center;
+            }
+        }
+
+        #movie-title {
+            text-align: center;
+            align-self: center;
+            padding: 10px;
+        }
+    }
+}
+
+/* RESPONSIVENESS */
+//above 1800px
+@media screen and (min-width: 0px) {
+}
+
+// //above 1400px to 1800px
+// @media screen and (min-width: 1400px) and (max-width: 1800px) {
+//     #movies-section {
+//         display: grid;
+//         grid-template-columns: auto auto auto auto;
+//     }
+// }
+
+// //below 1400px
+// @media screen and (max-width: 1400px) {
+//     #movies-section {
+//         display: grid;
+//         grid-template-columns: auto auto auto;
+//     }
+// }
+
+// //below 800px
+// @media screen and (max-width: 800px) {
+//     #movies-section {
+//         display: grid;
+//         grid-template-columns: auto auto;
+//     }
+// }
+
+// @media screen and (max-width: 600px) {
+//     #movies-section {
+//         display: grid;
+//         grid-template-columns: auto;
+//     }
+// }

@@ -18,11 +18,22 @@ export default function WatchlistButton(props: any) {
 			const storageJSON = JSON.parse(storage);
 			const watchlist = storageJSON.watchlist;
 
-			//check if the movie is in the watchlist
-			const isWatchlisted = watchlist.some((el: any) => el.Title === movie.movieDetails.Title);
+			if (movie && movie.movieDetails) {
+				//rmg page
+				//check if the movie is in the watchlist
+				const isWatchlisted = watchlist.some((el: any) => el.Title === movie.movieDetails.Title);
 
-			setIsWatchlisted(isWatchlisted);
-			return isWatchlisted;
+				setIsWatchlisted(isWatchlisted);
+				return isWatchlisted;
+			}
+			if (movie && movie.Title) {
+				//watchlist page
+				//check if the movie is in the watchlist
+				const isWatchlisted = watchlist.some((el: any) => el.Title === movie.Title);
+
+				setIsWatchlisted(isWatchlisted);
+				return isWatchlisted;
+			}
 		} else {
 			//if watchlist does not exist in localStorage
 			setIsWatchlisted(false);
@@ -60,21 +71,47 @@ export default function WatchlistButton(props: any) {
 						localStorage.removeItem('watchlist');
 						setIsWatchlisted(false);
 					} else {
-						//if watchlist has more than one movie and the clicked movie is in the watchlist, remove the clicked movie
-						const updatedWatchlist = watchlist.filter((el: any) => el.Title !== movie.movieDetails.Title);
-						const updatedStorage = {
-							watchlist: updatedWatchlist,
-						};
-						localStorage.setItem('watchlist', JSON.stringify(updatedStorage));
-						setIsWatchlisted(false);
+						if (movie && movie.movieDetails) {
+							//rmg page
+							//if watchlist has more than one movie and the clicked movie is in the watchlist, remove the clicked movie
+							const updatedWatchlist = watchlist.filter((el: any) => el.Title !== movie.movieDetails.Title);
+							const updatedStorage = {
+								watchlist: updatedWatchlist,
+							};
+							localStorage.setItem('watchlist', JSON.stringify(updatedStorage));
+							setIsWatchlisted(false);
+						}
+						if (movie && movie.Title) {
+							//watchlist page
+							//if watchlist has more than one movie and the clicked movie is in the watchlist, remove the clicked movie
+							const updatedWatchlist = watchlist.filter((el: any) => el.Title !== movie.Title);
+							console.log(updatedWatchlist);
+							const updatedStorage = {
+								watchlist: updatedWatchlist,
+							};
+							localStorage.setItem('watchlist', JSON.stringify(updatedStorage));
+							setIsWatchlisted(false);
+						}
 					}
 				} else {
-					//if movie is not watchlisted, add it to the watchlist
-					const newWatchlist = {
-						watchlist: [...watchlist, { ...movie.movie, ...movie.movieDetails }],
-					};
-					localStorage.setItem('watchlist', JSON.stringify(newWatchlist));
-					setIsWatchlisted(true);
+					if (movie && movie.movieDetails) {
+						//rmg page
+						//if movie is not watchlisted, add it to the watchlist
+						const newWatchlist = {
+							watchlist: [...watchlist, { ...movie.movie, ...movie.movieDetails }],
+						};
+						localStorage.setItem('watchlist', JSON.stringify(newWatchlist));
+						setIsWatchlisted(true);
+					}
+					if (movie && movie.Title) {
+						//watchlist page
+						//if movie is not watchlisted, add it to the watchlist
+						const newWatchlist = {
+							watchlist: [...watchlist, { ...movie }],
+						};
+						localStorage.setItem('watchlist', JSON.stringify(newWatchlist));
+						setIsWatchlisted(true);
+					}
 				}
 			}
 		}

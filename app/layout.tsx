@@ -1,5 +1,6 @@
 'use client';
-import './globals.scss';
+
+import './rmg.scss';
 import { store } from '@/lib/reduxStore/store';
 import { Provider } from 'react-redux';
 

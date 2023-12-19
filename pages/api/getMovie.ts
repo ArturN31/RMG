@@ -41,8 +41,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
 				//getting movie IMDb ID
 				const getMovie: any = getRandomMovie;
-				const getMovieResults: any = getMovie.results[0];
-				if (getMovieResults !== undefined) {
+
+				if (getMovie.results.length > 0) {
+					//if there are results
+					const getMovieResults: any = getMovie.results[0];
 					const getMovieID: any = getMovieResults.id;
 
 					if (process.env.OMDB_API_KEY !== undefined) {
@@ -55,12 +57,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 							movieDetails: await getMovieDetails,
 						};
 
-						//sending response
 						res.status(200).send(await responseToFrontend);
 					}
 				} else {
-					//there are no movies that match genre and list
-					res.status(404).send({ message: 'Not found' });
+					//if there are no results
+					res.status(404).send({
+						message:
+							'The requested resource could not be found but may be available in the future. Subsequent requests by the client are permissible. Try to change the list or genre.',
+					});
 				}
 			}
 		},
