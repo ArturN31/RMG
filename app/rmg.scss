@@ -427,45 +427,6 @@ header {
 	}
 }
 
-//below 1200px
-@media screen and (max-width: 1200px) {
-	header {
-		display: block;
-		height: auto;
-
-		nav {
-			width: 100%;
-			display: inline-block;
-			text-align: center;
-		}
-	}
-
-	main {
-		height: calc(100vh - 192px);
-		display: grid;
-		grid-template-columns: auto;
-		grid-template-rows: auto;
-		grid-column-gap: 0px;
-		grid-row-gap: 0px;
-	}
-
-	#filtering-inputs {
-		grid-area: 1 / 1 / 1 / 12;
-	}
-
-	#poster-aside {
-		height: calc(100vh - 377px);
-		min-height: 600px;
-		grid-area: 2 / 1 / 12 / 7;
-	}
-
-	#movie-details-container {
-		height: calc(100vh - 377px);
-		min-height: 600px;
-		grid-area: 2 / 7 / 12 / 12;
-	}
-}
-
 //below 1000px
 @media screen and (max-width: 1000px) {
 	header {
